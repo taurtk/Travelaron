@@ -209,6 +209,124 @@ export default {
   }
 }
 
+@media (max-width: 768px) {
+  .profile-screen {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .profile-card, .history-card {
+    padding: 1.5rem;
+  }
+  
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+  
+  .profile-info h2 {
+    font-size: 1.5rem;
+  }
+  
+  .profile-actions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .edit-btn, .logout-btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1.5rem;
+  }
+  
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .bill-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bill-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .empty-state {
+    padding: 2rem;
+  }
+  
+  .empty-icon {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-screen {
+    padding: 0.5rem;
+  }
+  
+  .profile-card, .history-card {
+    padding: 1rem;
+  }
+  
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+  
+  .profile-info h2 {
+    font-size: 1.3rem;
+  }
+  
+  .profile-info p {
+    font-size: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .bill-item {
+    padding: 1rem;
+  }
+  
+  .bill-id, .bill-amount {
+    font-size: 1rem;
+  }
+}
+
 .profile-header {
   display: flex;
   align-items: center;

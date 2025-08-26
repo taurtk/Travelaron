@@ -67,14 +67,34 @@ export default {
 .home-screen {
   font-family: sans-serif;
   padding: 2rem;
-  max-width: 100%;
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
 .header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 3rem;
+}
+
+.profile-icon {
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.5rem;
+}
+
+.profile-icon:hover {
+  background: rgba(102, 126, 234, 0.2);
+  transform: scale(1.05);
 }
 .app-name {
   font-weight: bold;
@@ -83,6 +103,9 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0;
+  flex: 1;
+  text-align: center;
 }
 
 .inputs {
@@ -133,9 +156,17 @@ export default {
   text-align: center;
 }
 .quick-buttons {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .quick-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 .quick-btn {
   padding: 0.75rem;
@@ -182,12 +213,88 @@ button {
     padding: 1rem;
   }
   
+  .header {
+    margin-bottom: 2rem;
+    flex-direction: row;
+  }
+  
+  .profile-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+  
   .inputs, .quick-actions {
     padding: 1.5rem;
   }
   
   .app-name {
+    font-size: 1.8rem;
+  }
+  
+  .input-group input {
+    padding: 1.2rem;
+    font-size: 1.2rem;
+  }
+  
+  .input-group label {
+    font-size: 1.2rem;
+  }
+  
+  .btn-primary {
+    padding: 1.2rem;
+    font-size: 1.2rem;
+  }
+  
+  .quick-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-screen {
+    padding: 0.5rem;
+  }
+  
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputs, .quick-actions {
+    padding: 1rem;
+  }
+  
+  .app-name {
     font-size: 1.5rem;
+  }
+  
+  .input-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  .input-group input {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .input-group label {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .btn-primary {
+    padding: 1.1rem;
+    font-size: 1.1rem;
+  }
+  
+  .quick-buttons {
+    gap: 0.5rem;
+  }
+  
+  .quick-btn {
+    padding: 0.875rem;
+    font-size: 0.95rem;
   }
 }
 </style>

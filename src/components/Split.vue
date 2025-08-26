@@ -191,7 +191,7 @@ export default {
 .split-bill-screen {
   font-family: sans-serif;
   padding: 2rem;
-  max-width: 100%;
+  max-width: 900px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -322,16 +322,96 @@ button {
     padding: 1rem;
   }
   
+  .header {
+    margin-bottom: 2rem;
+  }
+  
   .content {
     padding: 1.5rem;
   }
   
   .actions {
     flex-direction: column;
+    gap: 0.75rem;
   }
   
   .title {
     font-size: 2rem;
+  }
+  
+  .bill-summary h3 {
+    font-size: 1.6rem;
+  }
+  
+  .participant-info {
+    padding: 1.2rem;
+  }
+  
+  .participant-info input {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+  }
+  
+  .amount-display {
+    font-size: 1.3rem;
+  }
+  
+  button {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .split-bill-screen {
+    padding: 0.5rem;
+  }
+  
+  .header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.7rem;
+  }
+  
+  .bill-summary {
+    padding: 1.25rem;
+  }
+  
+  .bill-summary h3 {
+    font-size: 1.4rem;
+  }
+  
+  .participant-info {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .participant-info input {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    text-align: center;
+  }
+  
+  .amount-display {
+    font-size: 1.4rem;
+    justify-content: center;
+  }
+  
+  .actions {
+    gap: 0.5rem;
+  }
+  
+  button {
+    padding: 1.1rem;
+    font-size: 1rem;
   }
 }
 </style>

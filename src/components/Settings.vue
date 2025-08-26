@@ -253,6 +253,141 @@ export default {
   }
 }
 
+@media (max-width: 768px) {
+  .settings-screen {
+    padding: 1rem;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .settings-card {
+    padding: 1.5rem;
+  }
+  
+  .card-header {
+    margin-bottom: 2rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .setting-info {
+    gap: 1rem;
+  }
+  
+  .setting-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.8rem;
+  }
+  
+  .setting-details label {
+    font-size: 1.1rem;
+  }
+  
+  .setting-control {
+    width: 100%;
+    min-width: auto;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  .toggle-btn {
+    align-self: center;
+  }
+  
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .about-item {
+    padding: 1.5rem;
+  }
+  
+  .about-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-screen {
+    padding: 0.5rem;
+  }
+  
+  .settings-card {
+    padding: 1rem;
+  }
+  
+  .card-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .card-header p {
+    font-size: 1rem;
+  }
+  
+  .setting-item {
+    padding: 1rem;
+  }
+  
+  .setting-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .setting-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    align-self: center;
+  }
+  
+  .setting-details {
+    text-align: center;
+  }
+  
+  .setting-details label {
+    font-size: 1rem;
+  }
+  
+  .setting-details span {
+    font-size: 0.9rem;
+  }
+  
+  .setting-control {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .about-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .about-icon {
+    align-self: center;
+  }
+  
+  .about-details {
+    text-align: center;
+  }
+}
+
 .card-header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -347,6 +482,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .input-suffix {
@@ -359,6 +495,7 @@ export default {
 
 .input-wrapper input {
   padding-right: 2.5rem;
+  width: 100%;
 }
 
 .toggle-btn {
@@ -370,6 +507,11 @@ export default {
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
+  min-height: 44px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-btn.active {
@@ -382,14 +524,15 @@ export default {
   background: white;
   border-radius: 50%;
   position: absolute;
-  top: 2px;
+  top: 50%;
   left: 2px;
+  transform: translateY(-50%);
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .toggle-btn.active .toggle-slider {
-  transform: translateX(30px);
+  transform: translateY(-50%) translateX(30px);
 }
 
 .about-grid {

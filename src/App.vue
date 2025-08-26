@@ -126,6 +126,145 @@ body {
   background: #f8fafc;
   color: #2d3748;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Improve touch targets - mobile first */
+@media (max-width: 768px) {
+  button, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus on iOS */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  button {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  
+  input, select, textarea {
+    min-height: 40px;
+    font-size: 14px;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better button styles */
+button {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+}
+
+/* Only scale on mobile */
+@media (max-width: 768px) {
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Hover effects for desktop */
+@media (min-width: 769px) {
+  button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Better input styles for mobile */
+input, select, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Loading states and animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading {
+  animation: pulse 2s infinite;
+}
+
+/* Utility classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+
+.p-1 { padding: 0.5rem; }
+.p-2 { padding: 1rem; }
+.p-3 { padding: 1.5rem; }
+
+.hidden { display: none; }
+.block { display: block; }
+.flex { display: flex; }
+.grid { display: grid; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  /* Larger touch targets on mobile */
+  button {
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
+  
+  input, select, textarea {
+    font-size: 16px !important;
+    min-height: 48px !important;
+  }
+  
+  /* Better spacing for mobile */
+  .nav-item, button, input {
+    margin: 2px 0;
+  }
+  
+  /* Mobile utility classes */
+  .mobile-hidden { display: none !important; }
+  .mobile-block { display: block !important; }
+  .mobile-flex { display: flex !important; }
+  
+  .mobile-text-center { text-align: center !important; }
+  .mobile-text-left { text-align: left !important; }
+  
+  .mobile-p-1 { padding: 0.5rem !important; }
+  .mobile-p-2 { padding: 1rem !important; }
+  
+  .mobile-mb-1 { margin-bottom: 0.5rem !important; }
+  .mobile-mb-2 { margin-bottom: 1rem !important; }
+}
+
+/* Desktop utility classes */
+@media (min-width: 769px) {
+  .desktop-hidden { display: none !important; }
+  .desktop-block { display: block !important; }
+  .desktop-flex { display: flex !important; }
 }
 
 #app {
@@ -250,41 +389,104 @@ body {
   .sidebar {
     width: 100%;
     height: auto;
-    position: relative;
-    box-shadow: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .app-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .app-subtitle {
+    font-size: 0.8rem;
   }
   
   .main-content {
     margin-left: 0;
+    margin-top: 120px;
     width: 100vw;
-    padding: 0.5rem;
+    padding: 1rem;
+    min-height: calc(100vh - 120px);
   }
   
   .nav-menu {
     display: flex;
     overflow-x: auto;
-    padding: 1rem;
-    gap: 0.5rem;
+    padding: 0.5rem;
+    gap: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .nav-menu::-webkit-scrollbar {
+    display: none;
   }
   
   .nav-item {
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-    min-width: 80px;
+    gap: 0.25rem;
+    padding: 0.75rem 0.5rem;
+    min-width: 70px;
     text-align: center;
     border-left: none;
     border-bottom: 3px solid transparent;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   
   .nav-item:hover,
   .nav-item.active {
     border-left: none;
     border-bottom-color: white;
+    background: rgba(255,255,255,0.2);
+  }
+  
+  .nav-icon {
+    font-size: 1.1rem;
   }
   
   .nav-text {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0.5rem;
+    margin-top: 110px;
+    min-height: calc(100vh - 110px);
+  }
+  
+  .sidebar-header {
+    padding: 0.75rem;
+  }
+  
+  .nav-item {
+    min-width: 60px;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .nav-icon {
+    font-size: 1rem;
+  }
+  
+  .nav-text {
+    font-size: 0.65rem;
+  }
+  
+  .app-title {
+    font-size: 1.1rem;
   }
 }
 </style>
