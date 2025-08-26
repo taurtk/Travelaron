@@ -56,10 +56,17 @@ export const fetchAPI = async (endpoint, options = {}) => {
   let url;
 
   if (baseUrl === '/api/proxy') {
-    // For Vercel proxy with dynamic routes, use direct path structure
+    // For Vercel proxy, use query parameter format
     // Remove leading slash from endpoint
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-    url = `/api/proxy/${cleanEndpoint}`;
+    
+    // If there are query parameters in the endpoint, extract them
+    if (cleanEndpoint.includes('?')) {
+      const [path, queryString] = cleanEndpoint.split('?');
+      url = `/api/proxy?path=${encodeURIComponent(path)}&${queryString}`;
+    } else {
+      url = `/api/proxy?path=${encodeURIComponent(cleanEndpoint)}`;
+    }
   } else {
     url = `${baseUrl}${endpoint}`;
   }
