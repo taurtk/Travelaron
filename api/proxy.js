@@ -13,14 +13,16 @@ export default async function handler(req, res) {
   try {
     const backendUrl = 'http://ec2-13-223-49-221.compute-1.amazonaws.com:8080/api';
     
-    // Vercel's rewrite rule forwards the path, so we can use req.url directly
-    const apiPath = req.url.replace('/api/proxy', '');
-    const fullUrl = `${backendUrl}${apiPath}`;
+    // Use URL object for robust parsing of path and query string
+    const requestUrl = new URL(req.url, `http://${req.headers.host}`);
+    const apiPath = requestUrl.pathname.replace('/api/proxy', '');
+    const queryString = requestUrl.search;
+    
+    const fullUrl = `${backendUrl}${apiPath}${queryString}`;
     
     console.log('Proxying request:', {
       method: req.method,
       originalUrl: req.url,
-      pathname: url.pathname,
       apiPath,
       fullUrl
     });
@@ -35,7 +37,7 @@ export default async function handler(req, res) {
 
     // Add body for POST/PUT requests
     if (req.method !== 'GET' && req.method !== 'HEAD') {
-      if (req.body && Object.keys(req.body).length > 0) {
+      if (req.body) {
         fetchOptions.body = JSON.stringify(req.body);
       }
     }
