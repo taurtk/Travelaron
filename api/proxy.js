@@ -1,5 +1,4 @@
 // Vercel serverless function to proxy requests to your EC2 backend
-// This handles dynamic routes like /api/proxy/settlements/compute
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -14,27 +13,33 @@ export default async function handler(req, res) {
   try {
     const backendUrl = 'http://ec2-13-223-49-221.compute-1.amazonaws.com:8080/api';
     
-    // Get the path segments from the dynamic route
-    const { path: pathSegments, ...queryParams } = req.query;
+    // Extract path from URL - everything after /api/proxy
+    let apiPath = '';
+    const url = new URL(req.url, `https://${req.headers.host}`);
     
-    // Join path segments to create the API path
-    const apiPath = Array.isArray(pathSegments) ? pathSegments.join('/') : (pathSegments || '');
+    // Get path after /api/proxy
+    if (url.pathname.startsWith('/api/proxy/')) {
+      apiPath = url.pathname.replace('/api/proxy/', '');
+    } else if (url.pathname === '/api/proxy') {
+      // Handle root proxy requests
+      apiPath = '';
+    }
     
-    // Build query string from remaining parameters
-    const queryString = new URLSearchParams(queryParams).toString();
+    // Get query parameters
+    const queryString = url.search; // This includes the '?' if there are params
     
     // Construct the full backend URL
-    const fullUrl = `${backendUrl}/${apiPath}${queryString ? `?${queryString}` : ''}`;
+    const fullUrl = `${backendUrl}/${apiPath}${queryString}`;
     
     console.log('Proxying request:', {
       method: req.method,
       originalUrl: req.url,
-      pathSegments,
+      pathname: url.pathname,
       apiPath,
-      fullUrl,
-      queryParams
+      fullUrl
     });
 
+    // Prepare fetch options
     const fetchOptions = {
       method: req.method,
       headers: {
@@ -43,18 +48,22 @@ export default async function handler(req, res) {
     };
 
     // Add body for POST/PUT requests
-    if (req.method !== 'GET' && req.method !== 'HEAD' && req.body) {
-      fetchOptions.body = JSON.stringify(req.body);
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      if (req.body && Object.keys(req.body).length > 0) {
+        fetchOptions.body = JSON.stringify(req.body);
+      }
     }
 
+    // Make the request to backend
     const response = await fetch(fullUrl, fetchOptions);
     
-    if (!response.ok) {
-      console.error('Backend response error:', response.status, response.statusText);
-      const errorText = await response.text();
-      console.error('Backend error response:', errorText);
-    }
+    console.log('Backend response:', {
+      status: response.status,
+      statusText: response.statusText,
+      headers: Object.fromEntries(response.headers.entries())
+    });
     
+    // Handle response
     const contentType = response.headers.get('content-type');
     let data;
     
@@ -64,6 +73,7 @@ export default async function handler(req, res) {
       data = await response.text();
     }
     
+    // Return response with same status
     res.status(response.status).json(data);
     
   } catch (error) {

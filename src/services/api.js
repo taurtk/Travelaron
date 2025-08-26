@@ -16,12 +16,6 @@ const getApiUrl = () => {
     return '/api';
   }
 
-  // Use environment variable if available
-  if (import.meta.env.VITE_API_URL) {
-    console.log('Using environment API URL:', import.meta.env.VITE_API_URL);
-    return import.meta.env.VITE_API_URL;
-  }
-
   // In production (Vercel), use the serverless proxy to avoid HTTPS/HTTP mixed content issues
   console.log('Using Vercel serverless proxy: /api/proxy');
   return '/api/proxy';
@@ -56,8 +50,8 @@ export const fetchAPI = async (endpoint, options = {}) => {
   let url;
 
   if (baseUrl === '/api/proxy') {
-    // For Vercel proxy with dynamic routes, use direct path structure
-    // Remove leading slash from endpoint
+    // For Vercel proxy, append the endpoint directly to the proxy path
+    // Remove leading slash from endpoint to avoid double slashes
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     url = `/api/proxy/${cleanEndpoint}`;
   } else {
