@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// Use local proxy in development, direct URL in production
-const API_URL = import.meta.env.DEV ? '/api' : 'http://ec2-13-223-49-221.compute-1.amazonaws.com:8080/api';
+// API configuration is handled by getApiUrl() function
 
 // For development, we'll use the Vite proxy. For production on Vercel, use serverless proxy
 const getApiUrl = () => {
@@ -11,18 +10,18 @@ const getApiUrl = () => {
     protocol: typeof window !== 'undefined' ? window.location.protocol : 'unknown',
     envApiUrl: import.meta.env.VITE_API_URL
   });
-  
+
   if (import.meta.env.DEV) {
     console.log('Using development Vite proxy: /api');
     return '/api';
   }
-  
+
   // Use environment variable if available
   if (import.meta.env.VITE_API_URL) {
     console.log('Using environment API URL:', import.meta.env.VITE_API_URL);
     return import.meta.env.VITE_API_URL;
   }
-  
+
   // In production (Vercel), use the serverless proxy to avoid HTTPS/HTTP mixed content issues
   console.log('Using Vercel serverless proxy: /api/proxy');
   return '/api/proxy';
@@ -55,25 +54,16 @@ api.interceptors.response.use(
 export const fetchAPI = async (endpoint, options = {}) => {
   const baseUrl = getApiUrl();
   let url;
-  
+
   if (baseUrl === '/api/proxy') {
-    // For Vercel proxy, we need to format the URL differently
-    // Remove leading slash from endpoint and pass as path parameter
+    // For Vercel proxy with dynamic routes, use direct path structure
+    // Remove leading slash from endpoint
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-    url = `/api/proxy?path=${encodeURIComponent(cleanEndpoint)}`;
-    
-    // If there are query parameters in the endpoint, extract them
-    if (cleanEndpoint.includes('?')) {
-      const [path, queryString] = cleanEndpoint.split('?');
-      const params = new URLSearchParams(queryString);
-      const queryParams = Object.fromEntries(params.entries());
-      
-      url = `/api/proxy?path=${encodeURIComponent(path)}&${new URLSearchParams(queryParams).toString()}`;
-    }
+    url = `/api/proxy/${cleanEndpoint}`;
   } else {
     url = `${baseUrl}${endpoint}`;
   }
-  
+
   console.log('Fetch API Request:', options.method || 'GET', url);
 
   try {
