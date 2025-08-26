@@ -18,9 +18,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://ec2-13-223-49-221.compute-1.amazonaws.com:8080',
+        target: 'https://ec2-13-223-49-221.compute-1.amazonaws.com:8080',
         changeOrigin: true,
-        secure: false,
+        secure: true,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, _res) => {
             console.log('proxy error', err);
